@@ -1,0 +1,47 @@
+---
+title: Aside
+description: Aside Components
+updatedAt: 2023-08-18
+---
+
+* This component is use in DashboardLayout.tsx
+* To customize the code navigate to **/src/boilerplate/dashboard/components/Aside.tsx** file  
+
+The Aside.tsx is a component that display links on the dashboard based on the user role.
+
+## Create new dashboard links
+
+* To config your links navigate to **/src/config/dashboard** and fill in the object 
+with the require data
+
+
+``` js
+
+// ../src/config/dashboard
+export const dashboardConfig = {
+  links: {
+    // Customer role links: 
+    customer : {
+      menu : [
+        {
+          text: "Home",
+          href: "/",
+          icon: <Home className="w-4 text-foreground/70"/>,
+        },
+        // rest of the links here
+      ],
+      submenu: [
+        // your submenu links here
+      ]
+    },
+    // Admin role links: 
+    admin: [
+      // admin links
+    ]
+  }
+  alerts: {}
+}
+
+```
+
+Only the user with determinate role can see the display of link on their dashboard

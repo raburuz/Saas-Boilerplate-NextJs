@@ -1,0 +1,36 @@
+---
+title: Providers
+description: Providers.tsx 
+updatedAt: 2023-08-18
+---
+
+Wrappers all the providers needed from the boilerplate
+
+``` js
+
+// app/layout.ts
+
+/* BOILERPLATE */
+import { Providers } from '@/boilerplate/shared/components'
+
+/* COMPONENT */
+export default async function RootLayout({ children }: Props) {
+
+  const session = await getSession();
+  
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <Providers session={session}>
+          {children}
+        </Providers>
+        
+        {/* SHOW DOMAIN BRANDING*/}
+        <Branding/>
+      </body>
+    </html>
+  )
+}
+
+
+```

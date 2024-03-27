@@ -1,0 +1,107 @@
+---
+title: Dashboard
+description: Config the Dashboard
+updatedAt: 2023-08-18
+---
+
+Navigate to **/src/config/dashboard** and fill in the object with the require data
+
+
+``` js
+// ../src/config/dashboard
+export const dashboardConfig = {
+  links: {
+    // properties based on role
+  }
+  alerts: {
+    // properties based on role
+  }
+}
+
+```
+
+Here, you can configure the display of links to users based on their roles, as well as the alerts they can receive
+
+
+## Links
+
+You can display of links on the dashboard is based on the user role.
+
+By instance: 
+
+``` js
+
+
+  links: { 
+    // Customer role links: 
+    customer : {
+      menu : [
+        {
+          text: "Home",
+          href: "/",
+          icon: <Home className="w-4 text-foreground/70"/>,
+        },
+        // rest of the links here
+      ],
+      submenu: [
+        // your submenu links here
+      ]
+    },
+    // Admin role links: 
+    admin: [
+      // admin links
+    ]
+  }
+
+```
+Only the user with determinate role can see the display of link on their dashboard
+
+## Alerts
+
+The **Alerts.tsx** is a component that shows predefined information when a user event occurs.
+
+By instance:
+
+``` js
+
+ alerts: {
+    queryKey:"alert",
+    actions:{
+      // Customer role actions: 
+      customer:[
+        {
+          queryValue: "payment_success",
+          title: "Payment Successful 🎉",
+          description: "You have successfully made your payment.😀",
+          variant: "success",
+        },
+        // rest of events
+      ],
+      // Admin role actions: 
+      admin:[
+        // admin events
+      ],
+    }
+  }
+
+```
+
+### Trigger your event! 
+
+The Alerts.tsx component can only be displayed within the Dashboard layout, regardless of the route being displayed.
+
+``` shell
+
+// Show the alert 
+
+http://localhost:3000/settings/billing?alert=payment_success ✅
+
+http://localhost:3000/dashboard?alert=payment_success ✅
+
+// Not show the alert 
+
+http://localhost:3000/?alert=payment_success ❌
+
+```
+
+

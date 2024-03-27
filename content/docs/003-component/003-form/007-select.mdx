@@ -1,0 +1,36 @@
+---
+title: Select
+description: Select.tsx & Option.tsx
+updatedAt: 2023-08-18
+---
+
+Create a Select, you can use your own custom component.
+
+``` js
+
+/* BOILERPLATE */
+import { Form, FormField, FormLabel, FormMessage, Select, Option } from '@/boilerplate/form'
+
+/* COMPONENT */
+export const Component = () => {
+  
+  return (
+    <Form>
+      <FormField>
+        <FormLabel> Pets: </FormLabel>
+        <Select name="pet">
+          <Option value="dog">Dog</Option>
+          <Option value="cat">Cat</Option>
+        </Select>
+        <FormMessage message={"Pets is required"} />
+        {/*Code*/}
+      </FormField>
+
+      <button type="submit">Send</button>
+      
+    </Form>
+  )
+
+}
+
+```

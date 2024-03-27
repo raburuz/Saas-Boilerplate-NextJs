@@ -1,0 +1,72 @@
+---
+title: Subscription Plans
+description: Config your subscription plans
+updatedAt: 2023-08-18
+---
+
+Navigate to **../src/lib/plans/plans.ts** and fill in the object with the require data
+
+``` js
+
+import { Frequency, IPlan, SubscriptionPlanKey } from "./model";
+
+
+//SUBSCRIPTIONS
+export const planConfig: IPlan = {
+  mode : "subscription",
+  plans: [
+    {
+      key: "pro",
+      name: "Pro",
+      description:"For medium-sized business",
+      isPopular: true,
+      features: [],
+      prices: [
+        {
+          frequency:Frequency.monthly,
+          amount: "$9/month",
+          priceIds: {
+            development: "price_2NclI4X9qpfeQPXGTDyG9aMK",
+            production: "",
+            test: "",
+          },
+        },
+        {
+          frequency:Frequency.yearly,
+          amount: "$100/year",
+          priceIds: {
+            development: "",
+            production: "",
+            test: "",
+          },
+        },
+      ]
+    },
+  ],
+  faqs: []
+}
+
+```
+
+The object has available too many properties that help you to ship fast your next project.
+
+
+## Properties
+
+### Plan Configuration
+
+* mode: Select the "subscription" application mode.
+* plans: An array of subscription plans.
+* faqs: An array of frequently asked questions.
+
+### Subscription Plan
+
+* key: unique identity from **Typescript type SubscriptionPlanKey**
+* name: The name of the plan.
+* description: A description of the subscription plan.
+* isPopular: Indicates if the plan is popular.
+* features: An array of features associated with the plan.
+* prices: An array of price configurations for different billing cycles (frequency).
+    * Frequency: Billing Cycle
+    * amount: Cost of service 
+    * priceIds: Stripe price IDs 

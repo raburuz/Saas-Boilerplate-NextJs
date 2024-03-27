@@ -1,0 +1,43 @@
+---
+title: Protected Pages
+description: Next Middleware
+updatedAt: 2023-08-18
+---
+
+Once user is authentified, you can build protected routes like a user dashboard, settings, etc.
+
+
+The **AppMiddleware** function ensures that **all pages and subpages are protected**. If a user is not authenticated, they will be redirected to the login page regardless of their role.
+
+``` js
+
+const PUBLIC_ROUTES  = [ "/auth/login", "/auth/signup" ];
+const CUSTOMER_PROTECTED_ROUTES = [ "/dashboard", "/settings", "/onboarding" ];
+const ADMIN_PROTECTED_ROUTES = [ "/admin" ];
+
+export default async function AppMiddleware(req: NextRequest){
+  //Code
+}
+
+```
+
+Navigate to **../src/lib/middleware/app** to customize the code, if needed.
+
+
+### PUBLIC_ROUTES:
+
+* This array contains routes that are accessible only to unauthenticated users.
+* Routes like **/auth/login** and **/auth/signup** typically fulfill this requirement.
+
+### CUSTOMER_PROTECTED_ROUTES:
+
+* This array contains routes that are accessible only to users with a specific role, such as **customer**. Users must be logged in and identified as customers to access these routes.
+* Common routes like **/dashboard**, **/settings**, and **/onboarding** are protected and can only be accessed by customers after they have logged in.
+
+
+### ADMIN_PROTECTED_ROUTES:
+
+* This array contains routes that are restricted to administrators. These routes are typically used for administrative purposes and can only be accessed by users with administrative privileges.
+* The array may contain a route like **/admin**, which is a common path for an administrative dashboard.
+
+Read more about, [Next Middleware API reference](https://nextjs.org/docs/app/building-your-application/routing/middleware)

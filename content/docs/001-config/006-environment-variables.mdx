@@ -1,0 +1,41 @@
+---
+title: Environment Variables
+description: .env & Env t3
+updatedAt: 2023-08-18
+---
+
+## Local environment
+
+1. Rename .env.example to .env.local
+
+``` shell
+
+cp .env.example .env.local
+rm .env.example
+
+```
+
+2. Fill in the environment variables as instructed in the file.
+    * Note: The code resource file have the instructions
+
+``` shell
+
+NODE_ENV=development
+RESEND_API_KEY=re_xxxxxx_xxxxxxxxxxxxxxx
+GOOGLE_CLIENT_ID=xxxxxxx-xxxxxxxxxxx.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=xxxxx-xxxxxxxxxxxx
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_ramdom_secret_key
+DATABASE_URL=mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@cluster0.ns1yp.mongodb.net/YOUR_DATABASE_NAME_HERE
+STRIPE_SECRET_KEY=sk_xxxx_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+STRIPE_PUBLIC_KEY=pk_xxxx_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+STRIPE_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/xxxxxxxxx/xxxxxxxxxxxxxxxxxxxxx
+
+```
+
+## Env T3 package
+
+Forgetting environment variables during build can be a hassle and difficult to debug if a bug is caused by a missing environment variable. This package provides a simple way to define environment variables validation for your app.
+
+Read more about, [Env T3](https://env.t3.gg/)

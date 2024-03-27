@@ -1,0 +1,31 @@
+---
+title: Form Label
+description: FormLabel.tsx 
+updatedAt: 2023-08-18
+---
+
+Create a form label, you can use your own custom component.
+
+``` js
+
+/* BOILERPLATE */
+import { Form, FormField, FormLabel } from '@/boilerplate/form'
+
+/* COMPONENT */
+export const Component = () => {
+  
+  return (
+    <Form>
+      <FormField>
+        <FormLabel> Name: </FormLabel>
+        {/*Code*/}
+      </FormField>
+
+      <button type="submit">Send</button>
+      
+    </Form>
+  )
+
+}
+
+```

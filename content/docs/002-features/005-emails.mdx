@@ -1,0 +1,129 @@
+---
+title: Emails
+description: Resend + React Email
+updatedAt: 2023-08-18
+---
+
+Founder use [Resend](https://resend.com/home) and [React Email](https://react.email/) to send emails.
+
+However, you may want to consider using another email tool. It's important to note that setting up magic login links for users requires a reliable email tool.
+
+## Configuring Resend
+
+We recommend not sending emails in the development environment. Instead, use the terminal to display code or messages like 'Simulate sending an email.'
+
+1. Go to [Resend](https://resend.com/home) and create an Account
+2. Create a API Key
+3. Copy the **RESEND_API_KEY** to your .env.local (Optional in development environment)
+
+``` shell
+
+RESEND_API_KEY=re_xxxxxx_xxxxxxxxxxxxxxx
+
+```
+
+4. Navigate to the **../src/config/application** file and review the **resend** property in the configuration
+    * from_no_reply: "Founder < noreply@resend.com >",
+    * from_marketing: "Jean at Founder < marketing@resend.com >",
+
+## Email Templates Available
+
+* Magic links
+* Welcome Email
+* Upgrade Subscription Plan
+
+## Create a new Email Template 
+
+1. Navigate to **../email** folder and create a new **.tsx** file 
+2. Build your [React Email Component](https://react.email/docs/components/html)  
+
+``` js
+
+import * as React from 'react';
+import { Html } from '@react-email/html';
+import { Button } from '@react-email/button';
+
+export function Email(props) {
+  const { url } = props;
+
+  return (
+    <Html lang="en">
+      <Button href={url}>Click me</Button>
+    </Html>
+  );
+}
+
+export default Email;
+
+``` 
+
+## Send an Email 
+
+``` js
+
+/* BOILERPLATE */
+import { sendEmail } from "@/lib/resend";
+
+/* EMAILS */
+import MagicLink from "#/emails/magic-link";
+
+/* CONFIG */
+import { config } from "@/config";
+
+export const someFunction = async () => {
+
+  try { 
+
+    await sendEmail(
+      {
+        email: identifier,
+        subject: `Your ${config.app.name} Login Link`,
+        react: MagicLink({ url, email: identifier, appName: config.app.name }),
+        isMarketing: false,
+      }
+    )
+
+  } catch (error) {
+    // Code
+  }
+
+}
+
+``` 
+
+### Marketing Email
+
+**Marketing : true** → the email will be send with the config.resend.**from_marketing**
+
+**Marketing : false** → the email will be send with the config.resend.**from_no_reply**
+
+## Useful Terminal Commands
+
+``` js
+
+// Open React Email Server in port 8081
+npm run email 
+
+// Exec Prisma Generate, Application in port 3000, Prisma Studio, Open React Email Server in port 8081
+npm run dev dev:all
+
+
+```
+
+## Verify your domain in Resend (mandatory)
+
+- Required to send emails
+
+https://resend.com/docs/dashboard/domains/introduction
+
+- Add DMARC for better deliverability
+
+https://resend.com/docs/dashboard/domains/dmarc
+
+## Receive emails
+
+https://resend.com/docs/knowledge-base/can-i-receive-emails-with-resend
+
+## Avoid spam folder
+
+https://resend.com/docs/knowledge-base/how-do-i-avoid-gmails-spam-folder

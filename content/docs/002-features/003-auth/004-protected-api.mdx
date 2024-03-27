@@ -1,0 +1,87 @@
+---
+title: Protected API
+description: Next Auth
+updatedAt: 2023-08-18
+---
+
+* Compatible with Server Actions
+
+To verify if a user is authenticated, you have several options, including the use of:
+
+* [Next Auth Session](https://next-auth.js.org/getting-started/client)
+* Boilerplate (withAuthentication function)
+
+## Next Auth Session
+
+NextAuth.js handles the authentication process automatically. You can make a standard API call on the front-end like this:
+
+``` js
+
+// Front-end
+const response = await fetch('/api/some-endpoint');
+const data = await response.json();
+
+```
+
+In the backend, you can retrieve the user's session and access the user's data from the database. Make sure to configure your database first.
+Your API file might look like this:
+
+``` js
+
+//api/some-endpoint
+
+/* NEXT */
+import { NextResponse } from "next/server";
+
+/* LIBRARIES */
+import { getServerSession } from "next-auth/next";
+
+/* BOILERPLATE */
+import { nextAuthOptions } from "@/lib/auth";
+
+/* FUNCTION */
+export async function POST( request: Request ) {
+
+  const session = await getServerSession(nextAuthOptions);
+
+  if ( session ) { 
+    // Code Logic
+  } else {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
+
+}
+
+```
+
+## Boilerplate (authentication function)
+
+The **authentication function** is a powerful utility that enhances the Next Auth Session with additional options. It serves as a middleware function designed to verify user authentication and authorization roles, particularly for protected API routes.
+
+Here's an example of how to use the authentication function in your code:
+``` js
+
+/* NEXT */
+import { NextResponse } from "next/server";
+
+/* BOILERPLATE */
+import { authentication } from "@/lib/auth"
+
+/* FUNCTION */
+export async function POST( request: Request ){
+
+  const auth = await authentication({ allow: {  roles : [ "customer" ], subscriptions:["pro"], oneTime: ["pro"] } });
+  
+  if ( auth.user ) {
+    // Code Logic
+  } else {
+    return NextResponse.json(auth.message, { status: auth.statusCode });
+  }
+  
+}
+
+```
+
+Navigate to the **../src/lib/auth/auth** file and take a look at the **authentication function**. If you need to review the code, you can examine it there.
+
+Good to know: Can be use with server actions :)

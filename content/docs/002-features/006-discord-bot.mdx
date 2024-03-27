@@ -1,0 +1,55 @@
+---
+title: Discord Bot
+description: Discord Bot Logger
+updatedAt: 2023-08-18
+---
+
+
+This bot is helpful to send a log message to a Discord server through a webhook.
+
+## Configuring
+
+1. Create a account in [Discord](https://discord.com/)
+2. Create a new [Discord Server](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
+3. Open your Server **Settings** and head into the Integrations tab
+4. Click the **Create Webhook button** to create a new webhook
+5. Copy the webhook url to .env.local 
+
+``` shell
+
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/xxxxxxxxx/xxxxxxxxxxxxxxxxxxxxx
+
+```
+
+* Navigate to the **../src/lib/discord.ts** file and take a look at the **sendLogToDiscord** function.
+
+Usage:
+``` js
+
+import { sendLogToDiscord } from "@/lib/discord";
+
+export const importantAction = async ( email:string ) = {
+
+  try {
+
+    await sendImportantEmail({ email });
+
+  } catch (error) {
+
+    await sendLogToDiscord({ 
+      channel: "auth",
+      event: "magic link",
+      icon: "🔒",
+      description: `User with email address ${identifier} cannot receive the magic link.`, 
+      type: "error",
+      tags:{
+        email: identifier
+      }
+    })
+
+  }
+
+ }
+
+```
+

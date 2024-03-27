@@ -1,0 +1,63 @@
+---
+title: Alerts
+description: Alerts Component
+updatedAt: 2023-08-18
+---
+
+* This component is use in DashboardLayout.tsx
+* To customize the code navigate to **/src/boilerplate/dashboard/components/Alerts.tsx** file  
+
+The Alerts.tsx is a component that shows predefined information when an event happen.
+
+## Create new Alarms Events 
+
+* To config your alerts navigate to **/src/config/dashboard** and fill in the object 
+with the require data
+
+
+``` js
+
+// ../src/config/dashboard
+export const dashboardConfig = {
+  links: {}
+  alerts: {
+    queryKey:"alert",
+    actions:{
+      // Customer role actions: 
+      customer:[
+        {
+          queryValue: "payment_success",
+          title: "Payment Successful 🎉",
+          description: "You have successfully made your payment.😀",
+          variant: "success",
+        },
+        // rest of events
+      ],
+      // Admin role actions: 
+      admin:[
+        // admin events
+      ],
+    }
+  }
+}
+
+```
+
+## Trigger your event!
+
+The Alerts.tsx component can only be displayed within the Dashboard layout, regardless of the route being displayed.
+
+``` shell
+
+// Show the alert 
+ 
+http://localhost:3000/settings/billing?alert=payment_success ✅
+ 
+http://localhost:3000/dashboard?alert=payment_success ✅
+ 
+// Not show the alert 
+ 
+http://localhost:3000/?alert=payment_success ❌
+ 
+
+```

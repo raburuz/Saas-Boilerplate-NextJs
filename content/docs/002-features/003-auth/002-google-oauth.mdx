@@ -1,0 +1,71 @@
+---
+title: Google Oauth
+description: Next Auth 
+tag: 🚀 new
+updatedAt: 2023-08-18
+---
+
+Founder utilizes [Next Auth](https://next-auth.js.org/) for users authentication. To configure these services, follow these steps:
+
+* You can configure it in the **../src/lib/auth** file, make the necessary adjustments if needed.
+
+1. Set your environment variables in the .env.local file as follows:
+
+``` shell
+
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_ramdom_secret_key
+
+```
+
+## Create a new project on Google Cloud:
+
+1. Log in to your [Google Cloud Console](https://console.cloud.google.com/).
+1. In the Google Cloud Console, navigate to **APIs and Services** and then **Credentials**
+1. In the **Credentials** tab, click the **+ Create Credentials** button, then select **OAuth client ID**
+
+
+## Configure Google OAuth Client ID:
+
+1. Choose "Web Application" as the application type.
+1. Add the following to the "Authorized JavaScript origins" section:
+    * For development (localhost), add **http://localhost:3000**
+    * For your production site, add **https://your_site.com**
+1. In the "Authorized redirect URIs" section, add the following:
+    * For development (localhost), add **http://localhost:3000/api/auth/callback/google**
+    * For your production site, add **https://your_site.com/api/auth/callback/google**
+1. Click the **Create** button to generate your OAuth client ID and Client Secret.
+
+## Save Credentials in .env.local
+
+1. Copy the Client ID and Client Secret generated in the previous step.
+1. Paste the Client ID into the GOOGLE_CLIENT_ID variable and the Client Secret into the GOOGLE_CLIENT_SECRET variable in your .env.local file
+
+``` shell
+
+GOOGLE_CLIENT_ID=xxxxxxx-xxxxxxxxxxx.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=xxxxx-xxxxxxxxxxxx
+
+```
+
+## Configure Google OAuth Consent Screen
+
+1. Click on the **Configure Consent Screen** button.
+2. Fill in the required information for your OAuth consent screen. 
+3. Add **userinfo.email** and **userinfo.profile** to the **Scopes** section.
+4. Add yourself as a test user under the **Test users** section.
+5. Click **Save** to save your consent screen configuration.
+6. Click the **Publish App** button and submit your consent screen for verification.
+
+
+## Google Verification Process:
+
+Google will email you with further instructions regarding the verification process.
+During this process, **you'll need to have your domain verified with Google Search Console**
+
+
+You can already use Google login on localhost.
+On your production site, Google login will work, but you may see a warning until you complete the verification process, which can take a few days.
+
+
+Please note that the **PrismaAdapter** saves new users in the database when they click log in with Google button. Ensure that you have configured the database before using this functionality.

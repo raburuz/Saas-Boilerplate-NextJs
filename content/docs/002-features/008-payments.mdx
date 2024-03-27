@@ -1,0 +1,320 @@
+---
+title: Payments
+description: Stripe
+updatedAt: 2023-08-18
+---
+
+Here's a step-by-step guide to create a new account on Stripe, activate payments, and set up various configurations:
+
+## Configuring Stripe
+
+1. Create a Stripe Account and Activate Payments:
+
+* Go to [Stripe's website](https://stripe.com/) and sign up for a new account.
+* Follow the on-screen instructions to provide your business details and set up payment processing.
+
+2. Add Your Website URL:
+
+* In your **Stripe Dashboard**, navigate to **Settings**.
+* Select **Public Details**.
+* Add your website URL under the appropriate field.
+
+3. Branding - Add Logo & Colors:
+
+* In your **Stripe Dashboard**, navigate to **Settings**.
+* Choose **Branding**.
+* Upload your company logo and configure your brand colors.
+
+4. Configure Customer Emails:
+
+* In your **Stripe Dashboard**, go to **Settings**.
+* Click on **Customer Emails**.
+* Turn on emails for successful payments and refunds.
+
+5. Activate Customer Portal:
+
+* In your **Stripe Dashboard**, navigate to **Settings**.
+* Choose **Customer Portal**.
+* Activate the link to the customer portal (for potential future use).
+
+6. Fraud & Risk Rules:
+
+* In your **Stripe Dashboard**, navigate to **Payments**.
+* Select **Fraud & Risk**.
+* Click on **Rules**.
+* Ensure that the first 3DS rule is enabled. It's recommended to enable the second one as well.
+* Make sure to block payments if the CVV fails (as needed).
+
+## Local Environment (Test Mode)
+
+7. Turn ON Test Mode:
+
+* In your **Stripe Dashboard**, locate the **test/production switch** and **turn ON the Test Mode**.
+
+8. Create a New Product and Copy Price ID:
+
+* In your **Stripe Dashboard**, navigate to **Products**.
+* Create a new product: subscription or payment (one-time).
+* Copy the price ID ( e.g., **price_2NclI4X9qpfeQPXGTDyG9aMK** ) and paste it into your **../src/lib/plans/plans.ts** file:
+
+``` js
+
+//SUBSCRIPTIONS
+export const planConfig: IPlan = {
+  mode : "subscription",
+  plans: [
+    {
+      key: SubscriptionPlanKey.pro,
+      name: "Pro",
+      description:"For medium-sized business",
+      isPopular: true,
+      features: [],
+      prices: [
+        {
+          frequency:Frequency.monthly,
+          amount: "$9/month",
+          priceIds: {
+            development: "price_2NclI4X9qpfeQPXGTDyG9aMK",
+            production: "",
+            test: "",
+          },
+        },
+        {
+          frequency:Frequency.yearly,
+          amount: "$100/year",
+          priceIds: {
+            development: "",
+            production: "",
+            test: "",
+          },
+        },
+      ]
+    },
+  ]
+}
+
+//ONE-TIME PAYMENTS
+export const planConfig: IPlan = { 
+  mode : "payment",
+  plans:[
+    {
+      key: "pro",
+      name: "Pro",
+      description: "For individuals",
+      amount: "$150 / one-time",
+      isPopular: true,
+      features: [],
+      priceIds: {
+        production: "",
+        development: "price_2NclI4X9qpfeQPXGTDyG9aMK",
+        test: "",
+      }
+    }
+  ]
+}
+
+```
+
+9. Obtain API Keys:
+* In your **Stripe Dashboard**, go to **Developers**.
+* Copy your public and private keys.
+* Add these keys to your project's environment variables as **STRIPE_SECRET_KEY** and **STRIPE_PUBLIC_KEY** in your development environment (e.g., .env.local).
+
+``` shell
+
+STRIPE_SECRET_KEY=sk_xxxx_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+STRIPE_PUBLIC_KEY=pk_xxxx_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+```
+
+10. Set Up Webhooks Locally:
+
+* In your **Stripe Dashboard**, navigate to **Developers**.
+* Click on **Webhooks**.
+* Follow the steps to set up webhook events for **test in a local development**.
+* After logging into [Stripe CLI](https://stripe.com/docs/stripe-cli), use the following command to forward webhook events to your local API
+
+``` js
+
+stripe login
+
+// Forward events to your local development server
+stripe listen --forward-to http://localhost:3000/api/stripe/webhook
+
+```
+
+* Copy the **STRIPE_WEBHOOK_SECRET** to your .env.local
+
+``` shell
+
+STRIPE_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+```
+
+## Going to Production:
+
+11. Turn OFF Test Mode:
+
+* In your **Stripe Dashboard**, **turn OFF Test Mode** when you are ready to go live.
+
+12. Configure API Keys for Production:
+
+* In your **Stripe Dashboard**, go to **Developers**.
+* Copy your **public and private keys for the production environment**.
+* Add these keys to your production environment variables as **STRIPE_SECRET_KEY** and **STRIPE_PUBLIC_KEY**.
+
+13. Set Up Webhooks for Production:
+
+* In your **Stripe Dashboard**, navigate to **Developers**, then **Webhooks**.
+* Add an endpoint with your production domain and **/api/stripe/webhook**.
+
+``` shell
+
+https://your_domain.com/api/stripe/webhook
+
+```
+
+* Select the necessary events: 
+
+``` shell
+
+customer.subscription.updated
+
+customer.subscription.deleted
+
+```
+
+* Copy the signing secret and add it to your production environment variables as **STRIPE_WEBHOOK_SECRET**.
+
+Optional: Configure Payout Schedule:
+
+* In your **Stripe Dashboard**, go to **Balance**.
+* Choose **Manage Payouts**.
+* Set a specific date of the month to receive your payouts.
+
+## Subscriptions
+
+From the front-end, use the **SubscriptionsList.tsx** component to automatically show the Subscription Plans Pricing List.
+
+Feel free to customize your code, if needed!
+
+* Navigate to the **..src/boilerplate/plans/subscriptions/components/SubscriptionsList.tsx** file to customize your code.
+
+### SubscriptionsList.tsx component
+
+With this component your users can:
+
+* Create **The Checkout Session** automatically.
+* Upgrade or Downgrade the current subscription plan (update).
+
+Good to know: Price page and Billing page use this component
+
+## One-time payments
+
+From the front-end, use the **PaymentsList.tsx** component to automatically show the One-time Payments Plans Pricing List.
+
+Feel free to customize your code, if needed!
+
+* Navigate to the **..src/boilerplate/plans/payment/components/PaymentsList.tsx** file to customize your code.
+
+Good to know: Price page and Billing page use this component
+
+### SubscriptionsList.tsx component
+
+With this component your users can:
+
+* Create **The Checkout Session** automatically.
+* Upgrade or Downgrade the current subscription plan (update).
+
+Good to know: Price page and Billing page use this component
+
+## usePlanActions Hook
+
+This hook encapsulates various actions related to manage user subscriptions OR one-time payments. 
+ * Navigate to the **..src/boilerplate/plans/hook/usePlanActions.ts** file and take a look at the hook.
+ * Available Actions:
+    * isBlockingActions → Help to Disabled Buttons Actions.
+    * createStripePortal → Create the User Stripe Portal to Manage the Subscription.
+    * createCheckoutSession → Create the User Checkout Session.
+    * updateSubscription →  Upgrade or Downgrade (Update) the Current User Subscription Plan to another.
+    * cancelSubscription → Cancel the Current User Subscription Plan.
+    * renewSubscription → Renew the Current User Subscription Plan (Previously canceled).
+
+
+## Webhook 
+
+### Listen for new events
+
+1. Navigate to the **..src/lib/stripe/events.ts** file to customize your code or take a look at the webhook.
+2. Add your **subscriptions OR one-time** events to the array
+
+``` js
+
+// SUBSCRIPTIONS
+export const stripeSubscriptionEvents: Stripe.Event.Type[] = [
+  'customer.subscription.created',
+  //The subscription was created -> Create Record (Previously created, when the user login first time)
+  'customer.subscription.updated',
+  //The subscription was downgraded/upgraded -> Provisional Access and Updated Record
+  'customer.subscription.deleted',
+  //The subscription was canceled -> Revoke access and set to "free"
+  'invoice.payment_failed',
+  //The user payment failed -> Revoke access and send email to user (optional) to pay/update payment method
+  //Sent each billing interval if there is an issue with your customer’s payment method.
+  'invoice.paid',
+  //The user payment was made -> Provisional access 
+  //Sent each billing interval when a payment succeeds.
+  'checkout.session.completed',
+  //The user paid successfully and the subscription was created -> Provisional Access
+  //Sent when a customer clicks the Pay or Subscribe button in Checkout, informing you of a new purchase
+]
+
+// ONE-TIME PAYMENTS
+export const oneTimePaymentEvents: Stripe.Event.Type[] = [
+  "charge.succeeded",
+  //Help to capture the receipt_url 
+  //By default billing portal don't show one-time invoices 
+  "payment_intent.succeeded",
+  // The payment intend was made succeeded -> Provisional Access and Update Record
+  // It will get fired and at the very next second the checkout.session.completed will get fired
+  "payment_intent.payment_failed",
+  // A payment failed, to notify the customer that their payment has failed. -> Revoke access if exist
+  'checkout.session.completed',
+  //The user paid successfully and the subscription was created -> Provisional Access
+  //The event won't be emitted if a user's payment fails, or if they fail to provide any of the required fields.
+]
+```
+
+3. Navigate to the **..src/lib/stripe/webhook.ts** file and add your own business logic to the webhook
+
+``` js
+
+const subscriptionActions = async ( { event } : { event: IStripe.Event } ) => {
+
+  // Rest of code 
+
+  if(event.type === "new.event") {
+  
+  // Add your own business logic
+
+  }
+
+  // Rest of code
+
+}
+
+const oneTimePaymentActions = async ( { event } : { event: IStripe.Event } ) => {
+
+  // Rest of code 
+
+  if(event.type === "new.event") {
+  
+  // Add your own business logic
+
+  }
+
+  // Rest of code
+
+}
+
+```

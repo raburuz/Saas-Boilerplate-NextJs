@@ -1,0 +1,68 @@
+---
+title: Forms
+description: Zod + React Form Hook + Shadcn-ui / Boilerplate / Your custom components
+updatedAt: 2023-08-18
+---
+
+Founder use [Zod](https://zod.dev/) and [React Form Hook](https://react-hook-form.com/) to made easy work with form validation
+
+``` js
+
+  "use client"
+
+  /* LIBRARIES */
+  import { useForm } from "react-hook-form";
+  import { zodResolver } from '@hookform/resolvers/zod';
+  import { z } from "zod";
+
+  /* BOILERPLATE */
+  import { InferSchemaValues } from "@/lib/zod";
+
+  /* ZOD SCHEMA */
+  const schema = z.object({
+    name: 
+      z.string()
+      .trim()
+      .min( 1 , "Name is required")
+  })
+
+  type ISchema = InferSchemaValues<typeof schema>
+
+  /* COMPONENT */
+  export const Form = () => {
+
+    //hook
+    const form = useForm<ISchema>({
+      resolver: zodResolver(schema),
+      mode:'onBlur',
+    });
+
+    //function
+    const onSubmit = ( formData: ISchema ) => { 
+      // Code
+    };
+
+    //jsx
+    return (
+      <>
+
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <input type="text" {...form.register("name")}/>
+          <button type="submit"> ok </button>
+        </form>
+
+      </>
+    )
+  }
+
+```
+
+Multiple alternative user interfaces can be employed to enhance user experience:
+
+* [Shadcn-ui Forms](https://ui.shadcn.com/docs/components/form)
+* Boilerplate Form Components
+* Your Custom Form Components
+
+## NextJs Server Actions 
+
+Read more about, [NextJS Forms and Mutations API Reference](https://nextjs.org/docs/app/building-your-application/data-fetching/forms-and-mutations)

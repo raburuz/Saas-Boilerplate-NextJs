@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      /* # */
+      "#/emails/*": ["./emails/*"],
+      /* @ */
+      "@/config": ["./src/config"],
+      "@/env/*": ["./src/env/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/shadcn/*": ["./src/shadcn/*"],
+      "@/boilerplate/*": ["./src/boilerplate/*"],
+      "contentlayer/generated": ["./.contentlayer/generated"],
+    }
+  },
+  "include": [
+    "next-env.d.ts", 
+    "**/*.ts", 
+    "**/*.tsx", 
+    ".next/types/**/*.ts", 
+    "components", 
+    "src/env/client.mjs", 
+    "src/env/server.mjs", 
+    ".contentlayer/generated"
+  ],
+  "exclude": ["node_modules"]
+}

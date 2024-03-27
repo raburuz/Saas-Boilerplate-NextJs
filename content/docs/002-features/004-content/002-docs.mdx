@@ -1,0 +1,58 @@
+---
+title: Docs
+description: Documentation content
+tag: 🔥 hot
+updatedAt: 2023-08-18
+---
+
+## Create your own Docs
+
+1. Navigate to the **../content/docs** directory
+2. Create your docs based on the current folder structure
+
+``` js
+
+docs
+  index.mdx
+  001-config
+    001-project.mdx
+    002-onboarding.mdx
+    003-subscription-plans.mdx
+    004-one-time-plans.mdx
+    005-dashboard.mdx
+    006-environment-variables.mdx
+  002-features
+    001-seo.mdx
+    002-database
+      001-prisma.mdx
+      002-mongodb.mdx
+    003-auth
+      ...
+    004-content
+      ...
+    005-emails.mdx
+    006-discord-bot.mdx
+    ...
+
+```
+
+* Create a new **.mdx** file
+
+``` shell
+
+---
+title: Docs
+description: Documentation content
+tag: 🔥 hot
+updatedAt: 2023-08-18
+---
+
+Write your markdown content here
+
+```
+
+## Naming Convention
+
+* The system use these **numerical prefixes to organize the content hierarchically**. The system likely sorts these files and folders based on their names, arranging them in ascending numerical order.
+
+This naming convention serves as a way to systematically organize the content, ensuring that the order of the posts is maintained when they are listed or displayed. It can also help users navigate the documentation by following a logical sequence or hierarchy based on the numbers in the file and folder names.

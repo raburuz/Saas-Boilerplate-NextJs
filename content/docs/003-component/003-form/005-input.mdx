@@ -1,0 +1,33 @@
+---
+title: Input
+description: Input.tsx 
+updatedAt: 2023-08-18
+---
+
+Create a input, you can use your own custom component.
+
+``` js
+
+/* BOILERPLATE */
+import { Form, FormField, FormLabel, FormMessage, Input } from '@/boilerplate/form'
+
+/* COMPONENT */
+export const Component = () => {
+  
+  return (
+    <Form>
+      <FormField>
+        <FormLabel> Name: </FormLabel>
+        <Input type="text" name="name"/>
+        <FormMessage message={"Your name is incorrect"} />
+        {/*Code*/}
+      </FormField>
+
+      <button type="submit">Send</button>
+      
+    </Form>
+  )
+
+}
+
+```

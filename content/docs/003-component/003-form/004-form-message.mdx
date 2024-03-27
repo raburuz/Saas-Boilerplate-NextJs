@@ -1,0 +1,32 @@
+---
+title: Form Message
+description: FormMessage.tsx 
+updatedAt: 2023-08-18
+---
+
+Create a form message, you can use your own custom component.
+
+``` js
+
+/* BOILERPLATE */
+import { Form, FormField, FormLabel, FormMessage } from '@/boilerplate/form'
+
+/* COMPONENT */
+export const Component = () => {
+  
+  return (
+    <Form>
+      <FormField>
+        <FormLabel> Name: </FormLabel>
+        <FormMessage message={"Your name is incorrect"} />
+        {/*Code*/}
+      </FormField>
+
+      <button type="submit">Send</button>
+      
+    </Form>
+  )
+
+}
+
+```

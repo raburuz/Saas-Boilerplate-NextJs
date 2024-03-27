@@ -1,0 +1,55 @@
+---
+title: One-Time Plans
+description: Config your one-time payment plans
+updatedAt: 2023-08-18
+---
+
+Navigate to **../src/lib/plans/plans.ts** and fill in the object with the require data
+
+``` js
+
+import { IPlan, PaymentPlanKey } from "./model";
+
+//ONE-TIME PAYMENTS
+export const planConfig: IPlan = { 
+  mode : "payment",
+  plans:[
+    {
+      key: "pro",
+      name: "Pro",
+      description: "For individuals",
+      amount: "$150 / one-time",
+      isPopular: true,
+      features: [],
+      priceIds: {
+        production: "",
+        development: "price_2NclI4X9qpfeQPXGTDyG9aMK",
+        test: "",
+      }
+    }
+  ],
+  faqs: [],
+}
+
+```
+
+The object has available too many properties that help you to ship fast your next project.
+
+
+## Properties
+
+### Plan Configuration
+
+* mode: Select the "payment" application mode.
+* plans: An array of one-time payment plans.
+* faqs: An array of frequently asked questions.
+
+### One-Time Plan
+
+* key: unique identity from **Typescript type PaymentPlanKey**
+* name: The name of the plan.
+* description: A description of the subscription plan.
+* amount: Cost of service 
+* isPopular: Indicates if the plan is popular.
+* features: An array of features associated with the plan.
+* priceIds: Stripe price IDs 

@@ -1,0 +1,42 @@
+---
+title: Onboarding
+description: Onboarding Boilerplate Components
+updatedAt: 2023-08-18
+---
+
+Navigate to the **scr/boilerplate/boilerplate/pages/Onboarding.tsx** file and take a look at the file.
+
+* Feel free to customize the code if needed
+
+``` js
+
+//app router page
+ 
+/* BOILERPLATE */
+import { OnboardingPage } from "@/boilerplate/onboarding";
+ 
+export default function Page() {
+  return (
+    <>
+      <OnboardingPage/>
+    </>
+  )
+}
+
+```
+
+
+The Onboarding Page Component has an available server action. When the user clicks "Go to Dashboard" to finish the onboarding process, 
+the isOnboardingComplete property will be checked as "true" in the database and the user will be 
+redirected to the user dashboard automatically. 
+
+*Feel free to modify this server action if needed!*
+
+Note: Once isOnboardingComplete is set to true, The user will not be able to return to the onboarding page again.
+
+``` js
+
+/* The property isOnboardingComplete will be marked as true in the database */
+isOnboardingComplete: true
+
+```

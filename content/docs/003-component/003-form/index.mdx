@@ -1,0 +1,207 @@
+---
+title: Forms
+description: Shadcn-ui / Boilerplate / Custom components
+updatedAt: 2023-08-18
+---
+
+Multiple alternative user interfaces can be employed to enhance user experience:
+
+* [Shadcn-ui Forms](https://ui.shadcn.com/docs/components/form)
+* Boilerplate Form Components
+* Your Custom Form Components
+
+## Boilerplate Form Components
+
+Navigate to the **src/boilerplate/form** folder and take a look at the components.
+
+## React Form Hook + Zod + Boilerplate Form
+
+* React Form Hook is a client component
+* Toast is a client component
+
+``` js
+
+"use client"
+
+/* LIBRARIES */
+import { useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import toast from 'react-hot-toast';
+
+/* BOILERPLATE */
+import { Form, FormField, FormLabel, FormMessage, Input } from "@/boilerplate/form";
+
+/* SHADCN */
+import { Button } from "@/shadcn/ui/button";
+
+/* FOLDER */
+import { ISchema, schema } from "../schema";
+
+/* COMPONENT */
+export const Component = () => {
+
+  //Hooks
+  const form = useForm<ISchema>({
+    resolver: zodResolver(schema),
+    mode: 'onBlur',
+  });
+
+  //Action
+  const onSubmit = ( formData: ISchema ) => {
+
+    // Code
+    toast.success("success");
+
+  };
+  
+  //Jsx
+  return (
+    <Form onSubmit={ form.handleSubmit(onSubmit) }>
+
+      <FormField>
+        <FormLabel>Name</FormLabel>
+        <Input type="text" {...form.register("name")}/>
+        <FormMessage message={form.formState.errors["name"]?.message} /> 
+      </FormField>
+      
+      <Button type="submit"> Send </Button>
+
+    </Form>
+  )
+
+}
+
+```
+
+## React Form Hook + Zod + Boilerplate Form + Next Server Actions
+
+* React Form Hook is a client component
+* Toast is a client component
+
+``` js
+
+"use client"
+
+/* REACT */
+import { useTransition } from 'react';
+
+/* LIBRARIES */
+import { useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import toast from 'react-hot-toast';
+
+/* BOILERPLATE */
+import { Form, FormField, FormLabel, FormMessage, Input } from "@/boilerplate/form";
+
+/* SHADCN */
+import { Button } from "@/shadcn/ui/button";
+
+/* FOLDER */
+import { ISchema, schema } from "../schema";
+import { myServerAction } from "../action";
+
+/* COMPONENT */
+export const Component = () => {
+
+  //Hooks
+  const [ isPending, startTransition ] = useTransition();
+  const form = useForm<ISchema>({
+    resolver: zodResolver(schema),
+    mode: 'onBlur',
+  });
+
+  //Action
+  const onSubmit = ( formData: ISchema ) => {
+
+    startTransition( async () => {
+  
+      const response = await myServerAction(formData);
+      toast.success("success");
+  
+    })
+
+  };
+  
+  //Jsx
+  return (
+    <Form onSubmit={ form.handleSubmit(onSubmit) }>
+
+      <FormField>
+        <FormLabel>Name</FormLabel>
+        <Input type="text" {...form.register("name")}/>
+        <FormMessage message={form.formState.errors["name"]?.message} /> 
+      </FormField>
+      
+      <Button type="submit"> Send </Button>
+
+    </Form>
+  )
+
+}
+
+```
+
+## Boilerplate Form + Next Server Actions
+
+* Toast is a client component
+
+``` js
+
+"use client"
+
+/* REACT */
+import { useTransition } from 'react';
+
+/* LIBRARIES */
+import toast from 'react-hot-toast';
+
+/* BOILERPLATE */
+import { Form, FormField, FormLabel, FormMessage, Input } from "@/boilerplate/form";
+
+/* SHADCN */
+import { Button } from "@/shadcn/ui/button";
+
+/* FOLDER */
+import { myServerAction } from "../action";
+
+/* COMPONENT */
+export const Component = () => {
+
+  //Hooks
+  const [ isPending, startTransition ] = useTransition();
+
+  //Action
+  const action = ( formData: FormData ) => {
+
+    startTransition( async () => {
+
+      const name = formData.get('name') as string;
+      const response = await myServerAction(name);
+      toast.success("success");
+
+    })
+
+  };
+  
+  //Jsx
+  return (
+    <Form action={ action }>
+
+      <FormField>
+        <FormLabel>Name</FormLabel>
+        <Input type="text" {...form.register("name")}/>
+        <FormMessage message={form.formState.errors["name"]?.message} /> 
+      </FormField>
+      
+      <Button type="submit"> Send </Button>
+
+    </Form>
+  )
+
+}
+
+```
+
+## Next Server Actions
+
+React more about [NextJS Server Actions API Reference](https://nextjs.org/docs/app/api-reference/functions/server-actions)

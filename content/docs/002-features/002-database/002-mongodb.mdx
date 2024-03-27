@@ -1,0 +1,54 @@
+---
+title: Mongo DB
+description: NoSQL Database with Mongo DB
+updatedAt: 2023-08-18
+---
+
+In this guide, you will learn how to create a new project, deploy a MongoDB cluster on MongoDB Atlas, set up a local database for your development environment, and configure network access for your project. Additionally, you will set up your connection string for local development.
+
+## Prerequisites
+
+Before you begin, make sure you have the following:
+
+- A MongoDB Atlas account (if you don't have one, you can create it at https://www.mongodb.com/cloud/atlas).
+- Node.js installed on your local machine (https://nodejs.org/).
+
+## Create a New Project on MongoDB Atlas
+
+1. Log in to your MongoDB Atlas account.
+1. From the MongoDB Atlas dashboard, click "Create a New Project."
+1. Give your project a meaningful name and click "Next."
+
+## Deploy a MongoDB Cluster
+
+1. Inside your new project, click on "Clusters" in the left-hand navigation panel.
+1. Click the "Build a Cluster" button.
+1. Follow the setup wizard to configure your cluster, including selecting a cloud provider, region, and cluster configuration.
+1. Click "Create Cluster" to start the deployment. This process might take a few minutes.
+
+## Set Up a Local Database for Development
+
+To work offline and speed up development, you can set up a local database. You can use a tool like MongoDB Compass or run MongoDB locally. Make sure you have MongoDB installed on your local machine.
+
+## Configure Network Access
+
+To allow connections to your MongoDB Atlas cluster, you need to configure network access.
+
+1. In your MongoDB Atlas project, click "Network Access" in the left-hand navigation panel.
+1. Click the "+ Add IP Address" button.
+1. In the "Access List Entry" field, enter **0.0.0.0/0** This allows connections from any IP address.
+1. Click "Confirm" to add this access rule.
+
+## Configure Your Local Development Environment
+
+1. If you haven't already, rename the .env.example file in your project to .env.local.
+1. Open the .env.local file and find the DATABASE_URL variable.
+1. Replace the placeholder with the connection string for your MongoDB Atlas cluster. You can find this connection string in your cluster settings on the MongoDB Atlas dashboard.
+
+``` shell
+
+DATABASE_URL=mongodb+srv://<username>:<password>@clustername.mongodb.net/<database>?retryWrites=true&w=majority
+
+```
+
+Replace **username**, **password**, **clustername**, and **database** with your actual credentials and cluster details.

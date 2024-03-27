@@ -1,0 +1,38 @@
+---
+title: Magic Link
+description: Next Auth & Resend
+updatedAt: 2023-08-18
+---
+
+Founder utilizes [Next Auth](https://next-auth.js.org/) for users authentication and [Resend](https://resend.com) for sending emails. To configure these services, follow these steps:
+
+* You can configure it in the **../src/lib/auth** file, make the necessary adjustments if needed.
+
+1. Set your environment variables in the .env.local file as follows:
+
+``` shell
+
+RESEND_API_KEY=re_xxxxxx_xxxxxxxxxxxxxxx
+
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_ramdom_secret_key
+
+```
+
+2. Navigate to the **/src/config/application** file and modify the **config.resend.from_no_reply** (this will be used **during production**) with the following code:
+
+``` js
+
+export const config = {
+  // rest of code
+  resend: {
+    //rest of code
+    from_no_reply: "your_app_name <noreply@your_domain.com>",
+  },
+}
+
+```
+
+3. **During development**, emails will not be received. Instead, your terminal will display the login code for accessing the application.
+
+Please note that the **PrismaAdapter** saves new users in the database when they click the login link received via email. Ensure that you have configured the database before using this functionality.

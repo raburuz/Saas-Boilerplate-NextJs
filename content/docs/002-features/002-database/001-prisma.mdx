@@ -1,0 +1,65 @@
+---
+title: Prisma.io
+description: Prisma TypeScript ORM
+updatedAt: 2023-08-18
+---
+
+Prisma unlocks a new level of developer experience when working with databases thanks to its intuitive data model, automated migrations, type-safety & auto-completion.
+
+Read more about Prisma at [prisma.io](https://www.prisma.io/mongodb)
+
+## Use Prisma in your Project
+
+1. Import prisma into your file 
+
+``` js
+
+/* BOILERPLATE */
+import prisma from "@/lib/prisma";
+
+```
+
+2. Build a prisma query 
+
+
+``` js
+
+await prisma.user.findUnique({
+  where: { email: user.email }
+});
+
+```
+
+## Useful Terminal Commands
+
+``` js
+
+// Open Prisma Studio
+npm run prisma:studio
+
+// Generate the Prisma Client to define your database schema and to generate the corresponding TypeScript types
+npm run prisma:generate
+
+// Introspects the database to infer and executes the changes required to make your database schema reflect the state of your Prisma schema.
+npm run prisma:db_push_dev
+
+// MYSQL schemas
+// It is a development command and should never be used in a production environment
+// Reruns the existing migration history in the shadow database in order to detect schema drift 
+npm run prisma:migrate_dev
+
+// MYSQL schemas
+// To apply pending migrations to staging, testing, or production environments
+// https://www.prisma.io/docs/guides/deployment/deploy-database-changes-with-prisma-migrate
+npm run prisma:migrate_deploy
+
+// Exec Prisma Generate, Application in port 3000, Prisma Studio, Open React Email Server in port 8081
+npm run dev dev:all
+
+```
+
+## Recommended
+
+Read more about Prisma + MongoDB at [Prisma.io MongoDB](https://www.prisma.io/docs/guides/database/mongodb)
+
+Read more about Prisma + PlanetScale at [Prisma.io PlanetScale](https://www.prisma.io/docs/guides/database/planetscale)

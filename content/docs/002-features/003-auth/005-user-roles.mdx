@@ -1,0 +1,96 @@
+---
+title: User Roles
+description: Prisma
+updatedAt: 2023-08-18
+---
+
+Founder boilerplate have available two roles
+* Customer role 
+* Admin role 
+
+``` js
+
+// Prisma schema
+
+enum UserRole {
+  customer
+  admin
+  // here you can add new roles
+}
+
+```
+
+## Check if the user have determinate role
+
+
+
+### Frontend
+
+``` js
+
+"use client"
+
+/* LIBRARIES */
+import { UserRole } from "@prisma/client"; 
+import { useSession } from 'next-auth/react';
+
+/* FUNCTION */
+export const Aside = ({ className }: IProps) => {
+
+  const { data } = useSession();
+  const user = data?.user;
+
+  return (
+    <>
+      { 
+
+         user?.role === UserRole.customer ? (
+          <p> User has customer role </p>
+         ) : null
+
+      }
+
+    </>
+  )
+
+}
+
+```
+
+
+### Backend
+
+``` js
+
+/* NEXT */
+import { NextResponse } from "next/server";
+
+/* LIBRARIES */
+import { UserRole } from "@prisma/client"; 
+import { getServerSession } from "next-auth/next";
+
+/* BOILERPLATE */
+import { authOptions } from "@/lib/auth";
+
+/* FUNCTION */
+export async function POST( request: Request ) {
+
+  const session = await getServerSession(authOptions);
+
+  if ( session ) { 
+
+    // User role is equal to Customer Role
+    if( session.user.role === UserRole.customer ) {
+      
+      // Code Logic
+    
+    }
+
+  } else {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
+
+}
+
+```
+

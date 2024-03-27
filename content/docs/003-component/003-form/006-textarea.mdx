@@ -1,0 +1,33 @@
+---
+title: Textarea
+description: Textarea.tsx 
+updatedAt: 2023-08-18
+---
+
+Create a Textarea, you can use your own custom component.
+
+``` js
+
+/* BOILERPLATE */
+import { Form, FormField, FormLabel, FormMessage, Textarea } from '@/boilerplate/form'
+
+/* COMPONENT */
+export const Component = () => {
+  
+  return (
+    <Form>
+      <FormField>
+        <FormLabel> Description: </FormLabel>
+        <Textarea name="description"/>
+        <FormMessage message={"Description is required"} />
+        {/*Code*/}
+      </FormField>
+
+      <button type="submit">Send</button>
+      
+    </Form>
+  )
+
+}
+
+```

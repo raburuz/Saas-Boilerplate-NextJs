@@ -1,0 +1,112 @@
+---
+title: SEO
+description: Generate SEO metadata
+updatedAt: 2023-08-18
+---
+
+## Metadata
+
+Navigate to **../src/config/application** file and add the require values. 
+
+* These values will be used as default SEO tags.
+
+``` js
+
+export const config = {
+  /* rest of code */
+  marketing: {
+    // Seo default values
+    seo: {
+      title: "Founder, the ultimate NextJs starter kit",
+      description: "Unlock rapid product development with our Next.js boilerplate! Supercharge your project and get it in front of customers quickly. Start building today!",
+      icons:{
+        favicon: {
+          default: "/favicon.ico",
+        },
+        apple: {
+          default: "/next.svg",
+        },
+      },
+      category:"Developer Application",
+      keywords: "founder, react, nextjs boilerplate, nextjs starterkit",
+      open_graph_image_link: "",
+      theme_color:"#000000",
+    },
+  },
+}
+
+```
+
+
+Note: The helper **../src/lib/seo** adds all the important SEO tags (with your default values) to all pages thanks to the main **/app/layout** file.
+
+``` js
+
+import { seo } from "@/lib/seo";
+
+export const metadata = seo();
+
+```
+
+Read more about, [Next metadata Api reference](https://nextjs.org/docs/app/building-your-application/optimizing/metadata)
+
+## Rich Snippets
+
+To help Google understand your website better, you can add structured data in the form 
+of Schema.org markup. Here's a general example of what you might include in a 
+component called **SchemaRichSnippet.tsx** :
+
+``` js
+
+/* LIBRARIES */
+import type { BlogPosting, WithContext } from 'schema-dts';
+
+/* BOILERPLATE */
+import { SchemaRichSnippet } from "@/boilerplate/shared/components";
+import { BlogPostPage } from "@/boilerplate/content";
+
+/* COMPONENT */
+export default async function Page( { params }: IProps ) {
+
+  const article = allBlogPosts.find((article) => article.metadata.slugAsParams === params.slug);
+  
+  if(!article) notFound();
+
+  const jsonLd: WithContext<BlogPosting> = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    author: {
+      "@type": "Person",
+      name: article.author,
+    },
+    dateCreated: new Date(article.publishedAt).toISOString(),
+    datePublished: new Date(article.publishedAt).toISOString(),
+    headline: article.title,
+    image: [ article.image ],
+  }
+
+  return (
+    <>
+      <BlogPostPage article={article}/>
+      <SchemaRichSnippet jsonLd={jsonLd} />
+    </>
+  )
+}
+
+
+```
+You can navigate to **../src/boilerplate/shared/components/SchemaRichSnippet.tsx** and customize the code.
+
+Read more about [Next json-ld Api reference](https://nextjs.org/docs/app/building-your-application/optimizing/metadata#json-ld)
+
+## sitemap.xml
+
+Read more about, [Next sitemap.xml Api reference](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap)
+
+## robots.txt
+
+Read more about, [Next robots.txt Api reference](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/robots)
+
+## Important Notes
+
+* Claim your domain ownership on [Google Search Console](https://search.google.com/search-console/welcome) to help indexing

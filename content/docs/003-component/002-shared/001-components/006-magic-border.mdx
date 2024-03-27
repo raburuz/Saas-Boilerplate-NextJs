@@ -1,0 +1,35 @@
+---
+title: MagicBorder
+description: MagicBorder.tsx 
+updatedAt: 2023-08-18
+---
+
+Create a Magic Border Effect (Visual) 
+
+``` js
+
+/* BOILERPLATE */
+import { MagicBorder } from '@/boilerplate/shared/components'
+
+/* SHADCN */
+import { Card, CardContent, CardHeader } from "@/shadcn/ui/card"
+
+/* COMPONENT */
+export const Component = () => {
+  
+  return (
+    <MagicBorder>
+      <Card className="border-0 rounded-md">
+        <CardHeader>
+          <h2 className="font-semibold text-xl">Hi There</h2>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">Best boilerplate forever</p>
+        </CardContent>
+      </Card>
+    </MagicBorder>
+  )
+
+}
+
+```
